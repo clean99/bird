@@ -108,7 +108,7 @@ class Bird {
     this.r = width / 16;
     this.gravity = (height / (50 * 40)) * ((bodyweight / 10) * 1.5 + 1);
     this.velocity = 0;
-    this.lift = (-height / 55) * ((jump / 10) * 1.5 + 1);
+    this.lift = (-height / 55) * ((jump / 15) * 1.5 + 1);
     this.friction = 0.1;
     this.score = 0;
     this.up = false;
@@ -253,7 +253,7 @@ class Pipe {
   constructor() {
     this.x = width;
     this.w = width / 10;
-    this.gap = height / ((difficulty * 1.2 / 5) * hl.random(3, 5));
+    this.gap = height / (((difficulty * 1.2) / 5) * hl.random(3, 5));
     this.min_height = height / 3.6;
     this.max_height = height - this.min_height - this.gap;
     this.top = floor(hl.random(this.min_height, this.max_height));
@@ -745,6 +745,7 @@ function windowResized() {
   canvasWidth = Math.min(windowWidth, windowHeight);
   resizeCanvas(canvasWidth, canvasWidth);
   initialProperties();
+  openScreenBirdTracks.length = 0;
 }
 
 /*
