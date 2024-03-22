@@ -190,6 +190,8 @@ class Bird {
   }
 
   flap() {
+    window.sounds.jumpSound.stop();
+    window.sounds.jumpSound.play();
     this.velocity += this.lift;
     this.velocity *= 1 - this.friction;
     this.up = true;
@@ -318,6 +320,7 @@ class Pipe {
   hit(bird) {
     if (bird.x > this.x && bird.x < this.x + this.w) {
       if (bird.y < this.top || bird.y > this.top + this.gap) {
+        window.sounds.hitSound.play();
         return true;
       }
     }
