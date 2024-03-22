@@ -253,7 +253,7 @@ class Pipe {
   constructor() {
     this.x = width;
     this.w = width / 10;
-    this.gap = height / (((difficulty * 1.2) / 5) * hl.random(3, 5));
+    this.gap = height / hl.random(3, 4) - difficulty * 0.025 * height;
     this.min_height = height / 3.6;
     this.max_height = height - this.min_height - this.gap;
     this.top = floor(hl.random(this.min_height, this.max_height));
