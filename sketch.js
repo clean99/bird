@@ -127,7 +127,7 @@ class Bird {
     this.up = false;
   }
   loadBirdComponent(img, r, g, b) {
-    const scale = this.openScreenType === "static" ? 3 : 1;
+    const scale = this.openScreenType === "static" ? 2 : 1;
     tint(r, g, b);
     image(img, 0, 0, this.r * scale, this.r * 1.18 * scale);
   }
@@ -253,7 +253,7 @@ class Pipe {
   constructor() {
     this.x = width;
     this.w = width / 10;
-    this.gap = height / ((difficulty * 1.5 / 5) * hl.random(2.5, 4.5));
+    this.gap = height / ((difficulty * 1.2 / 5) * hl.random(3, 5));
     this.min_height = height / 3.6;
     this.max_height = height - this.min_height - this.gap;
     this.top = floor(hl.random(this.min_height, this.max_height));
@@ -358,6 +358,36 @@ function mousePressed$(event) {
   if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
     bird.flap();
   }
+}
+
+function initialProperties() {
+  particleSpeed = -width / 200;
+  birdStartPosition = {
+    x: width / 3,
+    y: height / 2.5,
+  };
+  birdStandingPosition = {
+    x: width / 1.8,
+    y: height / 2.6,
+  };
+  endPosition = {
+    x: width / 6,
+    y: height / 2.2,
+  };
+  (h1 = width / 20),
+    (h2 = width / 24),
+    (h2LineSpace = width / 21),
+    (h3 = width / 30);
+  (leftStart = width / 14), (midStart = height / 1.6);
+  bird = new Bird(birdStandingPosition.x, birdStandingPosition.y);
+  openScreenStaticBird = new Bird(
+    width / 2,
+    height * (2 / 5),
+    false,
+    0,
+    "northeast",
+    "static"
+  );
 }
 
 function preload() {
@@ -530,33 +560,7 @@ function setup() {
   let canvas = createCanvas(canvasWidth, canvasWidth);
   canvas.parent("cw");
   frameRate(40);
-  particleSpeed = -width / 200;
-  birdStartPosition = {
-    x: width / 3,
-    y: height / 2.5,
-  };
-  birdStandingPosition = {
-    x: width / 1.8,
-    y: height / 2.6,
-  };
-  endPosition = {
-    x: width / 6,
-    y: height / 2.2,
-  };
-  (h1 = width / 20),
-    (h2 = width / 24),
-    (h2LineSpace = width / 21),
-    (h3 = width / 30);
-  (leftStart = width / 14), (midStart = height / 1.6);
-  bird = new Bird(birdStandingPosition.x, birdStandingPosition.y);
-  openScreenStaticBird = new Bird(
-    width / 2,
-    height * (2 / 5),
-    false,
-    0,
-    "northeast",
-    "static"
-  );
+  initialProperties();
   angleMode(DEGREES);
   textStyle(BOLD);
   textSize(h1);
@@ -732,6 +736,15 @@ function displayPropertyWithStar(property, start, level, startCount) {
     );
   }
   pop();
+}
+
+/*
+ * Window resize
+ */
+function windowResized() {
+  canvasWidth = Math.min(windowWidth, windowHeight);
+  resizeCanvas(canvasWidth, canvasWidth);
+  initialProperties();
 }
 
 /*
