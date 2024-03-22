@@ -108,7 +108,7 @@ class Bird {
     this.r = width / 16;
     this.gravity = (height / (50 * 40)) * ((bodyweight / 10) * 1.5 + 1);
     this.velocity = 0;
-    this.lift = (-height / 55) * ((jump / 15) * 1.5 + 1);
+    this.lift = (-height / 55) * ((jump / 15) + 1);
     this.friction = 0.1;
     this.score = 0;
     this.up = false;
