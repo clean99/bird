@@ -1,6 +1,6 @@
 let bodyweight = hl.random(1, 5);
 let jump = hl.random(1, 5);
-let difficulty = hl.random(1, 5);
+let difficulty = 5;
 let textColor = [52, 123, 175];
 let offset = 0;
 let flowers;
@@ -255,7 +255,7 @@ class Pipe {
   constructor() {
     this.x = width;
     this.w = width / 10;
-    this.gap = height / hl.random(2.2, 3.4) - difficulty * 0.02 * height;
+    this.gap = height / hl.random(2.6, 3.4) - difficulty * 0.02 * height;
     this.min_height = height / 3.6;
     this.max_height = height - this.min_height - this.gap;
     this.top = floor(hl.random(this.min_height, this.max_height));
