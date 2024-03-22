@@ -1,6 +1,6 @@
 let bodyweight = hl.random(1, 5);
 let jump = hl.random(1, 5);
-let difficulty = 5;
+let difficulty = hl.random(1, 5);
 let textColor = [52, 123, 175];
 let offset = 0;
 let flowers;
