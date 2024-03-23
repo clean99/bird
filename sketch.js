@@ -15,6 +15,8 @@ let startIcon, restartIcon;
 let iconWidth = 36;
 let iconHeight = 36;
 let isRestart = false;
+// width * 0.25, height * 0.38, width * 0.5, height * 0.548
+let restartButton;
 let iconX, iconY;
 let birdImg, pipeImg, pipeRevImg, backgroundImg, endImg, starImg;
 let canvasWidth;
@@ -327,11 +329,15 @@ class Pipe {
   }
 
   hit(bird) {
+    // hit screen bottom
+    if (bird.y >= height) {
+      return true;
+    }
     if (bird.x > this.x && bird.x < this.x + this.w) {
       if (bird.y < this.top || bird.y > this.top + this.gap) {
         window.sounds.hitSound.play();
         return true;
-      }
+      } 
     }
     return false;
   }
@@ -345,54 +351,6 @@ class Pipe {
 
   update() {
     this.x -= this.speed;
-  }
-}
-
-function keyPressed$() {
-  if (playing && key == " ") {
-    bird.flap();
-  } else if (!isRestart) {
-    playing = true;
-    clear$();
-    bird.flap();
-  }
-}
-
-function mousePressed$(event) {
-  event.preventDefault();
-  if (!playing && isRestart && isClickRestart()) {
-    playing = true;
-    clear$();
-    bird.flap();
-    return;
-  }
-  if (!playing && !isRestart) {
-    playing = true;
-    clear$();
-    bird.flap();
-    return;
-  }
-  // click inside the canvas
-  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
-    bird.flap();
-  }
-}
-
-function isClickRestart() {
-  let restartButtonWidth = width * 0.34;
-  let restartButtonHeight = height * 0.08;
-  let restartButtonX = width * 0.5 - restartButtonWidth * 0.5;
-  let restartButtonY = height * 0.871 - restartButtonHeight * 0.5;
-
-  if (
-    mouseX >= restartButtonX &&
-    mouseX <= restartButtonX + restartButtonWidth &&
-    mouseY >= restartButtonY &&
-    mouseY <= restartButtonY + restartButtonHeight
-  ) {
-    return true;
-  } else {
-    return false;
   }
 }
 
@@ -600,6 +558,56 @@ function setup() {
   angleMode(DEGREES);
   textStyle(BOLD);
   textSize(h1);
+  // width * 0.25, height * 0.38, width * 0.5, height * 0.548
+  restartButton = {
+    x: width * 0.25,
+    y: height * 0.38,
+    w: width * 0.5,
+    h: height * 0.548,
+  };
+  function isClickRestart() {
+    // inside the button
+    if (
+      mouseX > restartButton.x &&
+      mouseX < restartButton.x + restartButton.w &&
+      mouseY > restartButton.y &&
+      mouseY < restartButton.y + restartButton.h
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+function keyPressed$() {
+  if (playing && key == " ") {
+    bird.flap();
+  } else if (!isRestart) {
+    playing = true;
+    clear$();
+    bird.flap();
+  }
+}
+
+function mousePressed$(event) {
+  event.preventDefault();
+  if (!playing && isRestart && isClickRestart()) {
+    playing = true;
+    clear$();
+    bird.flap();
+    return;
+  }
+  if (!playing && !isRestart) {
+    playing = true;
+    clear$();
+    bird.flap();
+    return;
+  }
+  // click inside the canvas
+  if ( mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+    bird.flap();
+  }
+}
   document.addEventListener("keypress", keyPressed$);
   document.addEventListener("mousedown", mousePressed$);
   // Prevent default touch actions for the entire document or specific elements
@@ -607,13 +615,22 @@ function setup() {
     "touchstart",
     function (e) {
       e.preventDefault();
-      if (playing) {
-        bird.flap();
-      } else {
-        playing = true;
-        clear$();
-        bird.flap();
-      }
+    if (!playing && isRestart && isClickRestart()) {
+      playing = true;
+      clear$();
+      bird.flap();
+      return;
+    }
+    if (!playing && !isRestart) {
+      playing = true;
+      clear$();
+      bird.flap();
+      return;
+    }
+    // click inside the canvas
+    if ( mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+      bird.flap();
+  }
     },
     { passive: false }
   );
@@ -636,7 +653,7 @@ function draw() {
 
   if (!playing) {
     if (isRestart) {
-      image(endImg, width * 0.25, height * 0.38, width * 0.5, height * 0.548);
+      image(endImg, restartButton.x, restartButton.y, restartButton.w, restartButton.h);
       fill(252, 146, 1);
       textSize(h2);
       text("Score: " + bird.score, width / 2, height / 1.3);
