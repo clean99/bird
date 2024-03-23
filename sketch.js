@@ -784,6 +784,7 @@ function displayWelcome() {
   fill(0); // black color for text
   textAlign(CENTER);
   text("Welcome to Birdy!", width / 2, height / 4);
+  text("Press Screen to Start", width / 2, height / 3.2);
   pop();
   displayPropertyWithStar("Jump", midStart, 0, jump);
   displayPropertyWithStar("Body Weight", midStart, 1, bodyweight);
