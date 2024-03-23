@@ -553,6 +553,14 @@ function setup() {
   canvasWidth = Math.min(windowWidth, windowHeight);
   let canvas = createCanvas(canvasWidth, canvasWidth);
   canvas.parent("cw");
+  // Move the canvas to the middle of the page
+  canvas.style('display', 'block'); // Use block display style
+  canvas.style('margin', 'auto'); // Automatic margin to center
+  // Optionally, adjust the position of the canvas from the top
+  const top = windowHeight / 2 - height / 2;
+  // x
+  const left = windowWidth / 2 - width / 2;
+  canvas.position(left, top);
   frameRate(40);
   initialProperties();
   angleMode(DEGREES);
@@ -565,14 +573,18 @@ function setup() {
     w: width * 0.5,
     h: height * 0.548,
   };
-  function isClickRestart() {
+  function isClickRestart(mouseX, mouseY) {
+    const restartTextX = width * 0.5;
+    const restartTextY = height * 0.871;
+    const textWidth = restartButton.w * 0.4;
+    const textHeight = restartButton.h * 0.125;
     // inside the button
     if (
-      mouseX > restartButton.x &&
-      mouseX < restartButton.x + restartButton.w &&
-      mouseY > restartButton.y &&
-      mouseY < restartButton.y + restartButton.h
-    ) {
+      mouseX > restartTextX - textWidth &&
+      mouseX < restartTextX + textWidth &&
+      mouseY > restartTextY - textHeight &&
+      mouseY < restartTextY + textHeight
+    ){
       return true;
     } else {
       return false;
@@ -591,8 +603,9 @@ function keyPressed$() {
 
 function mousePressed$(event) {
   event.preventDefault();
-  if (!playing && isRestart && isClickRestart()) {
+  if (!playing && isRestart && isClickRestart(mouseX, mouseY)) {
     playing = true;
+    isRestart = false;
     clear$();
     bird.flap();
     return;
@@ -604,7 +617,7 @@ function mousePressed$(event) {
     return;
   }
   // click inside the canvas
-  if ( mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+  if (!isRestart && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
     bird.flap();
   }
 }
@@ -615,8 +628,9 @@ function mousePressed$(event) {
     "touchstart",
     function (e) {
       e.preventDefault();
-    if (!playing && isRestart && isClickRestart()) {
+    if (!playing && isRestart && isClickRestart(e.touches[0].clientX, e.touches[0].clientY - top)) {
       playing = true;
+      isRestart = false;
       clear$();
       bird.flap();
       return;
@@ -628,7 +642,7 @@ function mousePressed$(event) {
       return;
     }
     // click inside the canvas
-    if ( mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+    if (!isRestart && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
       bird.flap();
   }
     },
