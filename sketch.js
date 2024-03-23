@@ -699,14 +699,14 @@ function draw() {
       bird.show(isRestart);
     } else {
       if (openScreenBirdTracks.length > 80) {
-        // captures a preview image for token
-        hl.token.capturePreview();
-
+        
         // render the tracks
         for (const track of openScreenBirdTracks) {
           track.show();
         }
         displayWelcome();
+        // captures a preview image for token
+        hl.token.capturePreview();
         return;
       }
       if ((!isRestart && !openScreenBird) || openScreenBird.isOutOfScreen()) {
