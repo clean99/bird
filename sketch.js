@@ -714,8 +714,8 @@ function draw() {
         const offsetL = (offset * width) / 13;
         offset++;
 
-        let startingX = 0;
-        let startingY = height;
+        let startingX = -4;
+        let startingY = height + 4;
         // randomly add offset to X or Y
         if (hl.randomElement([true, false])) {
           startingX = (offsetL + startingX) % width;
