@@ -698,7 +698,7 @@ function draw() {
       }
       bird.show(isRestart);
     } else {
-      if (openScreenBirdTracks.length > 50) {
+      if (openScreenBirdTracks.length > 80) {
         // captures a preview image for token
         hl.token.capturePreview();
 
